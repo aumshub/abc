@@ -6,10 +6,10 @@ const volumeRange = document.querySelector('.range');
 
 const baseURL = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1"
     ? ''
-    : '/abc'; // Replace 'your-repo-name' with your actual GitHub repository name
+    : '/your-repo-name'; // Replace 'your-repo-name' with your actual GitHub repository name
 
 const songAttributions = {
-    "Maestro Chives, Egzod, Neoni - Royalty [NCS Release].mp3": {
+    "Maestro Chives, Egzod, Neoni - Royalty [NPopular Releases Release].mp3": {
         title: "Egzod, Maestro Chives, Neoni - Royalty",
         attribution: [
             "Song: Egzod, Maestro Chives, Neoni - Royalty [NCS Release]",
@@ -195,7 +195,8 @@ async function displayAlbums() {
                             <div class="play">
                                 <div><i class="ri-play-large-fill"></i></div>
                             </div>
-                            <img  style=" height: 249px; width: 218px; object-fit: cover; object-position: center;" src="songs/${folder}/cover.jpeg" alt="cover img">
+                            <img style="height: 249px; width: 218px; object-fit: cover; object-position: center;" 
+                                 src="${baseURL}/songs/${folder}/cover.jpeg" alt="cover img">
                             <h2>${response.title}</h2>
                             <p>${response.description}</p>
                         </div>`;
@@ -229,7 +230,7 @@ async function displayAlbums() {
 
 async function main() {
     // Get the list of all the songs
-    await getSongs("songs/cs");
+    await getSongs("songs/Popular Releases");
 
     // By default play the first song
     // playMusic(songs[0], true);
