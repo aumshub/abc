@@ -694,6 +694,11 @@ font-size: 13px;
         flex-direction: column;
     }
 
+
+    .library{
+      margin-bottom: 60px;
+    }
+
     .spotifyPlaylist {
         flex: 1;
         display: flex;
@@ -708,8 +713,9 @@ font-size: 13px;
         display: flex;
         justify-content: center;
         align-items: center;
-        padding: 10px;
-        margin-bottom: 20px;
+ margin-top: 0;
+        padding: 5px;
+        margin-bottom: 100px;
     }
 
     .spotifyPlaylist .card {
@@ -756,11 +762,6 @@ font-size: 13px;
         padding-bottom: env(safe-area-inset-bottom);
     }
 
-    .cardcontainer {
-        padding: 5px;
-        margin-bottom: 100px;
-    }
-
     .card .play div {
         height: 32px;
         width: 32px;
@@ -771,16 +772,30 @@ font-size: 13px;
 
     .card h2 {
         font-size: 15px;
+        text-align: left;
+        margin-top: 10px;
+        margin-bottom: 0;
+        padding-top: 0;
+        padding-bottom: 0;
     }
 
     .card p {
-        font-size: 10px;
+        font-size: 9px;
+        text-align: left;
+        margin-top: 0;
+        margin-bottom: 0;
+        padding-top: 0;
+        padding-bottom: 0;
     }
 }
 
 @media (max-width: 480px) {
+
+    
+
     .spotifyPlaylist .card {
-        width: 220px;
+        width: 180px;
+        text-align: left;
     }
 
     .spotifyPlaylist .card img {
