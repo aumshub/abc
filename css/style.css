@@ -456,7 +456,7 @@ font-size: 13px;
         z-index: 1;
         width: 370px;
         padding: 15px;
-  
+        height: 80vh;
     }
 
     .right {
