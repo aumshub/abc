@@ -4,6 +4,10 @@ let songs;
 let currFolder;
 const volumeRange = document.querySelector('.range');
 
+const baseURL = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1"
+    ? ''
+    : '/abc'; // Replace 'your-repo-name' with your actual GitHub repository name
+
 const songAttributions = {
     "Maestro Chives, Egzod, Neoni - Royalty [NCS Release].mp3": {
         title: "Egzod, Maestro Chives, Neoni - Royalty",
@@ -63,59 +67,60 @@ function secondsToMinutesSeconds(seconds) {
     return `${formattedMinutes}:${formattedSeconds}`;
 }
 
-
 async function getSongs(folder) {
     currFolder = folder;
-    let a = await fetch(`${folder}/`)
-    let response = await a.text()
-    let div = document.createElement("div");
-    div.innerHTML = response;
-    let as = div.querySelectorAll("li a");
+    try {
+        let a = await fetch(`${baseURL}/${folder}/`);
+        let response = await a.text();
+        let div = document.createElement("div");
+        div.innerHTML = response;
+        let as = div.querySelectorAll("li a");
 
-    songs = []
-    for (let index = 0; index < as.length; index++) {
-        const element = as[index];
-        if (element.href.endsWith(".mp3")) {
-            songs.push(element.href.split(`/${folder}/`)[1]);
+        songs = []
+        for (let index = 0; index < as.length; index++) {
+            const element = as[index];
+            if (element.href.endsWith(".mp3")) {
+                songs.push(element.href.split(`/${folder}/`)[1]);
+            }
         }
-    }
 
-    // show all the songs in playlist
-    let songUL = document.querySelector(".songList").getElementsByTagName("ul")[0];
-    songUL.innerHTML = ""; // Clear the list
-    for (const song of songs) {
-        // Decode the song name to remove URL-encoded characters
-        let decodedSong = decodeURIComponent(song);
-        songUL.innerHTML += `
-            <li>
-                <i class="ri-music-2-fill svg"></i>
-                <div class="info">
-                    <div>${decodedSong.replaceAll("%20", " ")}</div>
-                    <div>Artist</div>
-                </div>
-                <div class="playnow">
-                    <span>Play Now</span>
-                    <i class="ri-play-large-fill"></i>
-                </div>
-            </li>`;
-    }
-    
+        // show all the songs in playlist
+        let songUL = document.querySelector(".songList").getElementsByTagName("ul")[0];
+        songUL.innerHTML = ""; // Clear the list
+        for (const song of songs) {
+            // Decode the song name to remove URL-encoded characters
+            let decodedSong = decodeURIComponent(song);
+            songUL.innerHTML += `
+                <li>
+                    <i class="ri-music-2-fill svg"></i>
+                    <div class="info">
+                        <div>${decodedSong.replaceAll("%20", " ")}</div>
+                        <div>Artist</div>
+                    </div>
+                    <div class="playnow">
+                        <span>Play Now</span>
+                        <i class="ri-play-large-fill"></i>
+                    </div>
+                </li>`;
+        }
+        
 
-    // Attach an event listener to play each song
-    Array.from(document.querySelector(".songList").getElementsByTagName("li")).forEach(element => {
-        element.addEventListener("click", () => {
-            let value = element.querySelector(".info").firstElementChild.innerHTML.trim();
-            value = decodeURIComponent(value); // Decode URL-encoded characters
-            console.log(value);
-            playMusic(value);
+        // Attach an event listener to play each song
+        Array.from(document.querySelector(".songList").getElementsByTagName("li")).forEach(element => {
+            element.addEventListener("click", () => {
+                let value = element.querySelector(".info").firstElementChild.innerHTML.trim();
+                value = decodeURIComponent(value); // Decode URL-encoded characters
+                console.log(value);
+                playMusic(value);
+            });
         });
-    });
 
-    return songs;
-
+        return songs;
+    } catch (error) {
+        console.error("Error fetching songs:", error);
+        return [];
+    }
 }
-
-
 
 function updateTicker(track) {
     // Decode the track name and trim whitespace
@@ -167,55 +172,59 @@ function playMusic(track, pause = false) {
 }
 
 async function displayAlbums() {
-    let a = await fetch('songs/')
-    let response = await a.text()
-    let cardcontainer = document.querySelector(".cardcontainer");
-    let div = document.createElement("div");
-    div.innerHTML = response;
-    let anchors = div.getElementsByTagName("a");
-    let array = Array.from(anchors);
-    
-    for (let index = 0; index < array.length; index++) {
-        const element = array[index];
-        if (element.href.includes("/songs/")) {
-            let folder = element.href.split("/").slice(-1)[0];
-            try {
-                let a = await fetch(`songs/${folder}/info.json`);
-                if (!a.ok) throw new Error("Failed to load metadata.");
-                let response = await a.json();
-                // Append to card container
-                cardcontainer.innerHTML += `  
-                    <div data-folder="songs/${folder}" class="card">
-                        <div class="play">
-                            <div><i class="ri-play-large-fill"></i></div>
-                        </div>
-                        <img  style=" height: 249px; width: 218px; object-fit: cover; object-position: center;" src="songs/${folder}/cover.jpeg" alt="cover img">
-                        <h2>${response.title}</h2>
-                        <p>${response.description}</p>
-                    </div>`;
-            } catch (error) {
-                console.error("Error fetching metadata:", error);
+    try {
+        let a = await fetch(`${baseURL}/songs/`);
+        let response = await a.text();
+        let cardcontainer = document.querySelector(".cardcontainer");
+        let div = document.createElement("div");
+        div.innerHTML = response;
+        let anchors = div.getElementsByTagName("a");
+        let array = Array.from(anchors);
+        
+        for (let index = 0; index < array.length; index++) {
+            const element = array[index];
+            if (element.href.includes("/songs/")) {
+                let folder = element.href.split("/").slice(-1)[0];
+                try {
+                    let a = await fetch(`${baseURL}/songs/${folder}/info.json`);
+                    if (!a.ok) throw new Error("Failed to load metadata.");
+                    let response = await a.json();
+                    // Append to card container
+                    cardcontainer.innerHTML += `  
+                        <div data-folder="songs/${folder}" class="card">
+                            <div class="play">
+                                <div><i class="ri-play-large-fill"></i></div>
+                            </div>
+                            <img  style=" height: 249px; width: 218px; object-fit: cover; object-position: center;" src="songs/${folder}/cover.jpeg" alt="cover img">
+                            <h2>${response.title}</h2>
+                            <p>${response.description}</p>
+                        </div>`;
+                } catch (error) {
+                    console.error("Error fetching metadata:", error);
+                }
             }
         }
-    }
 
-    // Load the playlist whenever card is clicked
-    Array.from(document.getElementsByClassName("card")).forEach(e => {
-        e.addEventListener("click", async item => {
-            console.log("Fetching Songs");
-            document.querySelector(".left").style.left = "0%";
-            songs = await getSongs(`${item.currentTarget.dataset.folder}`);
-    
-            // Decode all songs in the array
-            songs = songs.map(song => decodeURIComponent(song));
-    
-            if (songs.length > 0) {
-                console.log(songs); // For debugging
-                playMusic(songs[0]); // Play the first song
-            }
+        // Load the playlist whenever card is clicked
+        Array.from(document.getElementsByClassName("card")).forEach(e => {
+            e.addEventListener("click", async item => {
+                console.log("Fetching Songs");
+                document.querySelector(".left").style.left = "0%";
+                songs = await getSongs(`${item.currentTarget.dataset.folder}`);
+        
+                // Decode all songs in the array
+                songs = songs.map(song => decodeURIComponent(song));
+        
+                if (songs.length > 0) {
+                    console.log(songs); // For debugging
+                    playMusic(songs[0]); // Play the first song
+                }
+            });
         });
-    });
-    
+        
+    } catch (error) {
+        console.error("Error fetching albums:", error);
+    }
 }
 
 async function main() {
@@ -369,7 +378,5 @@ async function main() {
         // console.log("Audio unmuted");
     });
 }
-
-
 
 main()
