@@ -546,6 +546,8 @@ font-size: 13px;
   .spotifyPlaylist h1{
       padding: 12px;
       text-align: center;
+      margin-bottom: 0;
+      padding-bottom: 0;
   }
 
   .seekbar {
@@ -696,7 +698,7 @@ font-size: 13px;
 
 
     .library{
-      margin-bottom: 60px;
+      margin-bottom:100px;
     }
 
     .spotifyPlaylist {
@@ -716,6 +718,7 @@ font-size: 13px;
  margin-top: 0;
         padding: 5px;
         margin-bottom: 100px;
+        padding-top: 0;
     }
 
     .spotifyPlaylist .card {
