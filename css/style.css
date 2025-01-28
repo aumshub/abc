@@ -339,6 +339,7 @@ font-size: 12px;
 
   .volumecont i{
     cursor: pointer;
+    margin-top: 2px;
   }
 
   #volumebtn{
@@ -455,20 +456,20 @@ font-size: 13px;
         z-index: 1;
         width: 370px;
         padding: 15px;
-        height: 100vh;
+  
     }
 
     .right {
         width: 100vw;
         margin: 0;
-        height: 100vh;
+        /* height: 100vh; */
     }
 
     .playbar {
         padding: 15px 10px;
         width: calc(100vw - 40px);
         font-size: 11px;
-        margin-bottom: 5px;
+        margin-bottom: 30px;
     }
     
     .spotifyPlaylist h1{
@@ -502,7 +503,11 @@ font-size: 13px;
     }
 
     .spotifyPlaylist .card{
-        width:239px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+        width:250px;
     }
 
     .abovebar{
@@ -537,6 +542,7 @@ font-size: 13px;
     .card .play div {
         opacity: 1 !important;  /* Ensure opacity stays visible on mobile */
         top: 60% !important;  /* Ensure position stays the same on mobile */
+      left: 68% !important;
     }
 
     .card:hover .play div {
@@ -548,6 +554,7 @@ font-size: 13px;
         max-height: 67vh;
         margin: 10px;
         justify-content: center;
+
     }
 
     .spotifyPlaylist{
@@ -605,7 +612,7 @@ font-size: 13px;
     }
 
     .library {
-        min-height: 80vh;
+        min-height:0;
     }
 
     .cardcontainer {
