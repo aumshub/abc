@@ -62,7 +62,7 @@
             rgba(3, 111, 173, 0.3) 65%, 
             transparent 85%);  
         filter: blur(150px) brightness(1.5); /* Extra Blur + Brightness */
-        z-index: -1;
+        z-index: 0;
     }
     
     
