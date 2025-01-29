@@ -22,6 +22,7 @@ body {
   height: 100vh;
   display: flex;
   flex-direction: column;
+  transition: left 0.3s ease;
 }
 
 .right {
@@ -735,7 +736,7 @@ font-size: 13px;
 
   .header {
       height: auto;   
-      padding: 8px;  
+      padding: 5px;  
   }
 
 
@@ -867,10 +868,11 @@ font-size: 13px;
 
     /* Header adjustments */
     .header {
-        padding: 8px;
+        padding: 5px;
         margin-bottom: 10px;
         /* background: rgba(0, 0, 0, 0.3); */
     }
+
 
     /* Left sidebar adjustments */
     .left {
