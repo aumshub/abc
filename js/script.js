@@ -149,6 +149,7 @@ function playMusic(track, pause = false) {
         currentSong.play();
         pausebutton.style.display = "block";
         playbutton.style.display = "none";
+        triggerHapticFeedback();
     } else {
         playbutton.style.display = "block";
         pausebutton.style.display = "none";
@@ -211,12 +212,14 @@ async function main() {
         currentSong.play();
         play.style.display = "none";
         pause.style.display = "block";
+        triggerHapticFeedback();
     })
 
     pause.addEventListener("click", () => {
         currentSong.pause();
         play.style.display = "block";
         pause.style.display = "none";
+        triggerHapticFeedback();
     })
 
     // Listen an event fot time update
@@ -267,6 +270,7 @@ async function main() {
         } else {
             alert("This is the first song");
         }
+        triggerHapticFeedback();
     });
 
     // Next button event listener
@@ -292,6 +296,7 @@ async function main() {
         } else {
             alert("This is the last song");
         }
+        triggerHapticFeedback();
     });
 
     // Add an event to volume control
@@ -345,6 +350,12 @@ async function main() {
         volumeRange.value = currentSong.volume * 50;
         // console.log("Audio unmuted");
     });
+}
+
+function triggerHapticFeedback() {
+    if (navigator.vibrate) {
+        navigator.vibrate(50); // Vibrate for 50 milliseconds
+    }
 }
 
 main()
