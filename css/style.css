@@ -95,7 +95,7 @@ body {
 .header {
   position: relative;
   height: 30px;
-  background-color: #2d2d2d;
+  background-color: #802f2f;
   color: white;
   display: flex;
   align-items: center;
@@ -104,6 +104,22 @@ body {
   flex-wrap: wrap;
 
 }
+
+
+.header {
+  position: relative;
+  background: rgba(50, 50, 50, 0.8); /* Semi-opaque grey background */
+  backdrop-filter: blur(8px); /* Frosted glass blur effect */
+  height: 30px;
+  border-radius: 12px; /* Rounded edges for a modern look */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25); /* Soft shadow for depth */
+  border: 1px solid transparent; /* Transparent border for all sides */
+  position: relative; /* For positioning pseudo-element */
+  transition: box-shadow 0.3s ease; /* Smooth transition for box-shadow */
+}
+
+
+
 
 
 .spotifyPlaylist {
@@ -123,7 +139,7 @@ body {
   padding-top: 10px;
 }
 
-.spotifyPlaylist .card {
+/* .spotifyPlaylist .card {
   width: 250px;
   padding: 15px;
   border-radius: 8px;
@@ -133,7 +149,43 @@ body {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+} */
+
+
+.spotifyPlaylist .card {
+  width: 250px;
+  padding: 15px;
+  border-radius: 6px; /* Rounded edges for a modern look */
+  background: rgba(50, 50, 50, 0.8); /* Semi-opaque grey background */
+  backdrop-filter: blur(8px); /* Slight blur for frosted glass effect */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25); /* Soft shadow for depth */
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.15); /* Subtle light border for definition */
 }
+
+/* Adding the glossy shine effect */
+.spotifyPlaylist .card::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.25) 20%, transparent 50%); /* Glossy reflection */
+  filter: blur(40px); /* Soft gloss blur */
+  z-index: 1;
+}
+
+/* Optional hover effect for a more interactive look */
+.spotifyPlaylist .card:hover {
+cursor: pointer;
+}
+
+
 
 .card h2 {
   font-size: 16px;
@@ -149,7 +201,7 @@ body {
 }
 
 .card .play div {
-  background-color: #1fdf64;
+  background: linear-gradient(45deg, #1fdf64, #00b300);
   height: 35px;
   width: 35px;
   display: flex;
@@ -160,12 +212,14 @@ body {
   bottom: 90px;
   right: 10px;
   opacity: 0;
-  transition: all 0.3s ease;
+  transition: all 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 255, 0, 0.5);
 }
 
 .card:hover .play div {
   opacity: 1;
   transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 255, 0, 0.7);
 }
 
 .play div i {
@@ -215,6 +269,32 @@ body {
   margin-bottom: 20px;
   min-height: 50px;
 }
+
+.playbar {
+  position: fixed;
+  bottom: 0;
+  background: rgba(50, 50, 50, 0.8); /* Semi-opaque grey background */
+  backdrop-filter: blur(8px); /* Frosted glass blur */
+  width: 71.8vw;
+  padding: 8px;
+  margin-bottom: 20px;
+  min-height: 50px;
+  border-radius: 12px; /* Slightly rounded edges for modern look */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25); /* Soft shadow for depth */
+  border-top: 1px solid rgba(22, 204, 61, 0.763); /* Green border on the top-left */
+  border-left: 1px solid rgba(22, 204, 61, 0.763);
+  border-right: 1px solid rgba(255, 255, 255, 0.15);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  transition: box-shadow 0.3s ease; /* Smooth transition for box-shadow */
+}
+
+
+
+/* Optional hover effect to add a bit of interaction */
+.playbar:hover {
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); /* Deeper shadow on hover */
+}
+
 
 
 
@@ -286,7 +366,7 @@ font-size: 12px;
 
 .seekbar {
   height: 3px;
-  width: 98%;
+  width: 97.5%;
   border-radius: 10px;
   background: white;
   position: absolute;
@@ -507,6 +587,10 @@ font-size: 13px;
 }
 
 
+.range{
+  color: white;
+}
+
 @media (max-width: 1200px) {
 .container{
   padding:10px;
@@ -628,8 +712,8 @@ font-size: 13px;
 
   .card .play div {
       opacity: 1 !important;  /* Ensure opacity stays visible on mobile */
-      top: 60% !important;  /* Ensure position stays the same on mobile */
-    left: 68% !important;
+      top: 63% !important;  /* Ensure position stays the same on mobile */
+    left: 79% !important;
   }
 
   .card:hover .play div {
@@ -707,6 +791,13 @@ font-size: 13px;
 }
 
 @media (max-width: 600px) {
+
+  .card .play div {
+    opacity: 1 !important;  /* Ensure opacity stays visible on mobile */
+    top: 67% !important;  /* Ensure position stays the same on mobile */
+  left: 80% !important;
+}
+
     .container {
         padding: 0;
         height: 100%;
@@ -818,6 +909,13 @@ font-size: 13px;
 }
 
 @media (max-width: 480px) {
+
+
+  .card .play div {
+    opacity: 1 !important;  /* Ensure opacity stays visible on mobile */
+    top: 55% !important;  /* Ensure position stays the same on mobile */
+  left: 70% !important;
+}
 
     
 
