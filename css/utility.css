@@ -29,13 +29,45 @@
     position: relative;
     overflow: hidden;
 } */
-.bg-grey {
-    background: linear-gradient(45deg, #3aee03, #036fad);
-    position: relative;
-    overflow: hidden;
-    z-index: 0; 
+/* .bg-grey { */
+    /* background: linear-gradient(45deg, #3aee03, #036fad); */
+
+    /* position: relative; */
+    /* overflow: hidden; */
+    /* z-index: 0;  */
     /* filter: url(#gradient); */
-}
+    
+    
+    /* filter: url(#gradient); */
+    
+    .bg-grey {
+        position: relative;
+        overflow: hidden;
+        z-index: 0;
+        background: linear-gradient(135deg, #0d0d0d, #050505, #000000); /* Deep black gradient */
+    }
+    
+    /* Extra Shiny Green & Blue Glow */
+    .bg-grey::before {
+        content: "";
+        position: absolute;
+        top: -150px;
+        left: -150px;
+        width: 450px;
+        height: 450px;
+        background: radial-gradient(circle, 
+            rgba(58, 238, 3, 0.9) 10%,  /* Brighter Neon Green */
+            rgba(3, 111, 173, 0.8) 30%, /* Brighter Blue */
+            rgba(58, 238, 3, 0.5) 50%,  
+            rgba(3, 111, 173, 0.3) 65%, 
+            transparent 85%);  
+        filter: blur(150px) brightness(1.5); /* Extra Blur + Brightness */
+        z-index: -1;
+    }
+    
+    
+    
+    
 
 
 
