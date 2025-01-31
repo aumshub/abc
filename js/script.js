@@ -46,12 +46,21 @@ function secondsToMinutesSeconds(seconds) {
 
 async function getSongs(folder) {
     try {
+        // Try direct folder access first (works locally)
         const response = await fetch(`${baseURL}/${folder}`);
+        
         if (!response.ok) {
+            // For GitHub Pages, try songs.json
+            const songsResponse = await fetch(`${baseURL}/${folder}/songs.json`);
+            if (songsResponse.ok) {
+                const data = await songsResponse.json();
+                return data.songs;
+            }
             throw new Error(`HTTP error! status: ${response.status}`);
         }
+
+        // Local environment parsing (your existing code)
         const text = await response.text();
-        
         const div = document.createElement('div');
         div.innerHTML = text;
         
@@ -135,18 +144,41 @@ function playMusic(track, pause = false) {
     let songName = decodeURIComponent(track.replace('.mp3', ''));
     document.querySelector(".songinfo").innerHTML = songName;
     document.querySelector(".songtime").innerHTML = "00:00 / 00:00";
+    
+    // Add this line to update the ticker
+    updateTicker(track);
+}
+
+async function getAlbumInfo(folder) {
+    try {
+        const response = await fetch(`${baseURL}/songs/${folder}/info.json`);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const info = await response.json();
+        return {
+            title: info.title || folder,
+            description: info.description || "Music Album"
+        };
+    } catch (error) {
+        console.error("Error fetching album info:", error);
+        return {
+            title: folder,
+            description: "Music Album"
+        };
+    }
 }
 
 async function displayAlbums() {
     try {
-        const folders = ['EDM Hits', 'Another Songs', 'Another Songs - copy'];
+        const folders = ['EDM Hits', 'Another Songs', 'Another Songs - Copy'];
         let cardcontainer = document.querySelector(".cardcontainer");
         cardcontainer.innerHTML = '';
         
         for (const folder of folders) {
             try {
-                let title = folder;
-                let description = "Music Album";
+                // Get album info from info.json
+                const albumInfo = await getAlbumInfo(folder);
                 
                 // Update the cover image path
                 const coverPath = `${baseURL}/songs/${folder}/cover.jpeg`;
@@ -158,8 +190,8 @@ async function displayAlbums() {
                         </div>
                         <img style="height: 249px; width: 218px; object-fit: cover; object-position: center;" 
                              src="${coverPath}" alt="cover img">
-                        <h2>${title}</h2>
-                        <p>${description}</p>
+                        <h2>${albumInfo.title}</h2>
+                        <p>${albumInfo.description}</p>
                     </div>`;
             } catch (error) {
                 console.error("Error processing folder:", folder, error);
