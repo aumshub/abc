@@ -381,9 +381,32 @@ function triggerHapticFeedback() {
     }
 }
 
-function init3DScroll() {
-    // Empty function to prevent errors
-    return;
-}
+
+document.addEventListener("DOMContentLoaded", function () {
+    const menu = document.querySelector(".left");
+    const hamburger = document.querySelector(".hamburger");
+    const closeBtn = document.querySelector(".close");
+
+    function openMenu() {
+        menu.classList.add("active");
+    }
+
+    function closeMenu() {
+        menu.classList.remove("active");
+    }
+
+    // Open sidebar when clicking the hamburger
+    hamburger.addEventListener("click", openMenu);
+
+    // Close sidebar when clicking the close button
+    closeBtn.addEventListener("click", closeMenu);
+
+    // Close sidebar when clicking outside of it
+    document.addEventListener("click", function (event) {
+        if (!menu.contains(event.target) && !hamburger.contains(event.target)) {
+            closeMenu();
+        }
+    });
+});
 
 main()
