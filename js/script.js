@@ -46,12 +46,15 @@ function secondsToMinutesSeconds(seconds) {
 
 async function getSongs(folder) {
     try {
+        // Encode the folder name to handle spaces and special characters
+        const encodedFolder = encodeURIComponent(folder);
+        
         // Try direct folder access first (works locally)
-        const response = await fetch(`${baseURL}/${folder}`);
+        const response = await fetch(`${baseURL}/${encodedFolder}`);
         
         if (!response.ok) {
             // For GitHub Pages, try songs.json
-            const songsResponse = await fetch(`${baseURL}/${folder}/songs.json`);
+            const songsResponse = await fetch(`${baseURL}/${encodedFolder}/songs.json`);
             if (songsResponse.ok) {
                 const data = await songsResponse.json();
                 return data.songs;
@@ -86,7 +89,7 @@ async function getSongs(folder) {
                 </li>`;
         }
 
-        Array.from(document.querySelector(".songList").getElementsByTagName("li")).forEach((li, index) => {
+        Array.from(songUL.getElementsByTagName("li")).forEach((li, index) => {
             li.addEventListener("click", () => {
                 playMusic(mp3Files[index]);
             });
