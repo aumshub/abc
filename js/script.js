@@ -5,8 +5,8 @@ let currFolder;
 const volumeRange = document.querySelector('.range');
 
 const baseURL = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1"
-    ? ""  // Local development
-    : "/your-repo-name"; // Replace with your GitHub repository name
+    ? ""
+    : "/music-player"; // Replace 'music-player' with your actual repository name
 
 const songAttributions = {
     // ... (keep existing attributions)
@@ -120,49 +120,36 @@ function updateTicker(track) {
 }
 
 function playMusic(track, pause = false) {
-    const playbutton = document.querySelector("#play");
-    const pausebutton = document.querySelector("#pause");
-
-    currentSong.src = `${currFolder}/${track}`;
-    updateTicker(track);  // Update ticker with current song's attribution
-
+    currentSong.src = `${baseURL}/${currFolder}/${track}`;
+    
     if (!pause) {
         currentSong.play();
-        pausebutton.style.display = "block";
-        playbutton.style.display = "none";
+        let playButton = document.getElementById("play");
+        let pauseButton = document.getElementById("pause");
+        playButton.style.display = "none";
+        pauseButton.style.display = "block";
         triggerHapticFeedback();
-    } else {
-        playbutton.style.display = "block";
-        pausebutton.style.display = "none";
     }
 
-    document.querySelector(".songinfo").innerHTML = decodeURIComponent(track).replace('.mp3', '');
+    // Update song info display
+    let songName = decodeURIComponent(track.replace('.mp3', ''));
+    document.querySelector(".songinfo").innerHTML = songName;
     document.querySelector(".songtime").innerHTML = "00:00 / 00:00";
 }
 
 async function displayAlbums() {
     try {
-        // For GitHub Pages and local development
-        const folders = ['EDM Hits', 'Another Songs', 'Another Songs - copy']; // Add all your folder names here
+        const folders = ['EDM Hits', 'Another Songs', 'Another Songs - copy'];
         let cardcontainer = document.querySelector(".cardcontainer");
         cardcontainer.innerHTML = '';
         
         for (const folder of folders) {
             try {
-                // First check if info.json exists
                 let title = folder;
                 let description = "Music Album";
                 
-                try {
-                    const infoResponse = await fetch(`${baseURL}/songs/${folder}/info.json`);
-                    if (infoResponse.ok) {
-                        const infoData = await infoResponse.json();
-                        title = infoData.title;
-                        description = infoData.description;
-                    }
-                } catch (e) {
-                    console.log("Using default title and description for folder:", folder);
-                }
+                // Update the cover image path
+                const coverPath = `${baseURL}/songs/${folder}/cover.jpeg`;
                 
                 cardcontainer.innerHTML += `  
                     <div data-folder="songs/${folder}" class="card">
@@ -170,7 +157,7 @@ async function displayAlbums() {
                             <div><i class="ri-play-large-fill"></i></div>
                         </div>
                         <img style="height: 249px; width: 218px; object-fit: cover; object-position: center;" 
-                             src="${baseURL}/songs/${folder}/cover.jpeg" alt="cover img">
+                             src="${coverPath}" alt="cover img">
                         <h2>${title}</h2>
                         <p>${description}</p>
                     </div>`;
@@ -185,6 +172,7 @@ async function displayAlbums() {
                 const folderPath = item.currentTarget.dataset.folder;
                 songs = await getSongs(folderPath);
                 if (songs.length > 0) {
+                    currFolder = folderPath;
                     playMusic(songs[0]);
                 }
             });
@@ -195,10 +183,8 @@ async function displayAlbums() {
 }
 
 async function main() {
-    // Remove the initial getSongs call since we don't have a "cs" folder anymore
+    // Display all the albums on the page
     displayAlbums();
-
-    // Desplay all the albums on the page
 
     // Attach an event listener to play, next and pervious buttons
     play.addEventListener("click", () => {
@@ -210,8 +196,10 @@ async function main() {
 
     pause.addEventListener("click", () => {
         currentSong.pause();
-        play.style.display = "block";
-        pause.style.display = "none";
+        let playButton = document.getElementById("play");
+        let pauseButton = document.getElementById("pause");
+        playButton.style.display = "block";
+        pauseButton.style.display = "none";
         triggerHapticFeedback();
     })
 
@@ -344,18 +332,17 @@ async function main() {
         volumeRange.value = currentSong.volume * 50;
         // console.log("Audio unmuted");
     });
-
-    // Initialize 3D scroll effect
-    init3DScroll();
-    
-    // Re-initialize on window resize
-    window.addEventListener('resize', init3DScroll);
 }
 
 function triggerHapticFeedback() {
     if (navigator.vibrate) {
         navigator.vibrate(50); // Vibrate for 50 milliseconds
     }
+}
+
+function init3DScroll() {
+    // Empty function to prevent errors
+    return;
 }
 
 main()
