@@ -158,17 +158,26 @@ body {
 
 .spotifyPlaylist .card {
   width: 250px;
+  height: 350px;  /* Fixed height for consistency */
   padding: 15px;
-  border-radius: 6px; /* Rounded edges for a modern look */
-  background: rgba(50, 50, 50, 0.8); /* Semi-opaque grey background */
-  backdrop-filter: blur(8px); /* Slight blur for frosted glass effect */
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25); /* Soft shadow for depth */
+  border-radius: 6px;
+  background: rgba(50, 50, 50, 0.8);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
   position: relative;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.15); /* Subtle light border for definition */
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+/* Make all card images consistent size */
+.spotifyPlaylist .card img {
+  width: 220px;
+  height: 220px;
+  object-fit: cover;
+  border-radius: 4px;
 }
 
 /* Adding the glossy shine effect */
@@ -836,7 +845,7 @@ font-size: 13px;
         display: block;
  margin-top: 0;
         padding: 5px;
-        margin-bottom: 120px;
+        margin-bottom: 100px;
         padding-top: 0;
         overflow-x: auto;
         align-items: center;
@@ -943,6 +952,7 @@ font-size: 13px;
 
     .spotifyPlaylist .card {
         width: 180px;
+        height: 280px;  /* Adjusted height for mobile */
         text-align: left;
     }
 
