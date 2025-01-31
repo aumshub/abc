@@ -5,8 +5,8 @@ let currFolder;
 const volumeRange = document.querySelector('.range');
 
 const baseURL = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1"
-    ? ''
-    : '/abc'; // Replace 'abc' with your actual GitHub repository name
+    ? ""  // Local development
+    : "/your-repo-name"; // Replace with your GitHub repository name
 
 const songAttributions = {
     // ... (keep existing attributions)
@@ -45,30 +45,30 @@ function secondsToMinutesSeconds(seconds) {
 }
 
 async function getSongs(folder) {
-    currFolder = folder;
     try {
-        // Get list of all MP3 files in the folder
         const response = await fetch(`${baseURL}/${folder}`);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
         const text = await response.text();
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(text, 'text/html');
         
-        // Filter for MP3 files
-        songs = Array.from(doc.querySelectorAll('a'))
-            .map(a => a.href)
-            .filter(href => href.toLowerCase().endsWith('.mp3'))
-            .map(href => decodeURIComponent(href.split('/').pop()));
+        const div = document.createElement('div');
+        div.innerHTML = text;
+        
+        const links = Array.from(div.getElementsByTagName('a'));
+        const mp3Files = links
+            .filter(link => link.href.endsWith('.mp3'))
+            .map(link => decodeURIComponent(link.href.split('/').pop()));
 
-        // Update the songList UI
-        let songUL = document.querySelector(".songList").getElementsByTagName("ul")[0];
+        const songUL = document.querySelector(".songList").getElementsByTagName("ul")[0];
         songUL.innerHTML = "";
-        
-        for (const song of songs) {
+
+        for (const song of mp3Files) {
             songUL.innerHTML += `
                 <li>
                     <i class="ri-music-2-fill svg"></i>
                     <div class="info">
-                        <div>${song.replace('.mp3', '')}</div>
+                        <div>${decodeURIComponent(song.replace('.mp3', ''))}</div>
                     </div>
                     <div class="playnow">
                         <span>Play Now</span>
@@ -77,16 +77,15 @@ async function getSongs(folder) {
                 </li>`;
         }
 
-        // Add click events to songs
-        Array.from(document.querySelector(".songList").getElementsByTagName("li")).forEach(element => {
-            element.addEventListener("click", () => {
-                playMusic(element.querySelector(".info").firstElementChild.innerHTML.trim());
+        Array.from(document.querySelector(".songList").getElementsByTagName("li")).forEach((li, index) => {
+            li.addEventListener("click", () => {
+                playMusic(mp3Files[index]);
             });
         });
 
-        return songs;
+        return mp3Files;
     } catch (error) {
-        console.error("Error fetching songs:", error);
+        console.error("Error in getSongs:", error);
         return [];
     }
 }
@@ -195,8 +194,6 @@ async function displayAlbums() {
     }
 }
 
-
-
 async function main() {
     // Remove the initial getSongs call since we don't have a "cs" folder anymore
     displayAlbums();
@@ -234,14 +231,15 @@ async function main() {
         currentSong.currentTime = ((currentSong.duration) * percent) / 100
     })
 
-    // add an  event listener to hamburger menu
-    document.querySelector(".hamburger").addEventListener("click", (e) => {
-        document.querySelector(".left").style.left = "0%";
-    })
-    // add an  event listener to closing menu
-    document.querySelector(".close").addEventListener("click", (e) => {
-        document.querySelector(".left").style.left = "-120%";
-    })
+    // Hamburger menu click handler
+    document.querySelector(".hamburger").addEventListener("click", () => {
+        document.querySelector(".left").classList.add("active");
+    });
+
+    // Close button click handler
+    document.querySelector(".close").addEventListener("click", () => {
+        document.querySelector(".left").classList.remove("active");
+    });
 
     // Previous button event listener
     previous.addEventListener("click", (e) => {
