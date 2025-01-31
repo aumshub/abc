@@ -25,6 +25,7 @@ body {
   background-color: black;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   z-index: 1000;
+  position: relative;
 }
 
 .right {
@@ -548,8 +549,13 @@ font-size: 13px;
 @media (max-width: 1200px) {
   .left {
     position: fixed;
-    left: -350px; /* Hide menu off-screen */
-    width: 350px; /* Fixed width instead of percentage */
+    left: -350px;
+    width: 350px;
+    height: 100vh;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    background-color: black;
+    z-index: 9999;
+    overflow-y: auto;
   }
 
   .left.active {
@@ -559,8 +565,8 @@ font-size: 13px;
 
   .hamburger {
     display: block;
-    font-size: 24px;
-    cursor: pointer;
+    position: relative;
+    z-index: 9998;
   }
 
   .close {
@@ -570,7 +576,7 @@ font-size: 13px;
     top: 20px;
     font-size: 24px;
     cursor: pointer;
-    z-index: 1001; 
+    z-index: 10000;
   }
 
   .songList{
