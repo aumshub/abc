@@ -229,24 +229,7 @@ cursor: pointer;
   color: grey;
 }
 
-.signupbtn:hover {
-  font-size: 17px;
-  color: white;
-}
 
-.loginbtn {
-  background-color: white;
-  border-radius: 21px;
-  font-weight: normal;
-  color: black;
-  width: 79px;
-  padding: 10px;
-}
-
-.loginbtn:hover {
-  font-weight: bold;
-  font-size: 17px;
-}
 
 .playbar {
   position: fixed;
@@ -276,10 +259,7 @@ cursor: pointer;
   transition: box-shadow 0.3s ease; /* Smooth transition for box-shadow */
 }
 
-/* Optional hover effect to add a bit of interaction */
-.playbar:hover {
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); /* Deeper shadow on hover */
-}
+
 
 /* min-height is this so that the max height can be reached accordingly if needed or auto happened in when it comes to the smaller screen size */
 .songbuttons {
