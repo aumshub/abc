@@ -848,17 +848,11 @@ font-size: 13px;
 
 
   .card .play div {
-    opacity: 1 !important;  /* Ensure opacity stays visible on mobile */
-    top: 55% !important;  /* Ensure position stays the same on mobile */
+    opacity: 1 !important;
+        top: 55% !important;  
   left: 70% !important;
 }
 
-
-.card .play div:hover{
-  opacity: 1 !important;
-  top: 55% !important;
-  left: 70% !important;
-}
     
 .cardcontainer{
   display: flex;
@@ -871,11 +865,11 @@ font-size: 13px;
         height: 280px;  /* Adjusted height for mobile */
         text-align: left;
     }
-
+/* 
     .spotifyPlaylist .card img {
         width: 150px !important;
         height: 150px !important;
-    }
+    } */
 
     .abovebar{
       height: 15vh;
