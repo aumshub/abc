@@ -6,7 +6,7 @@ const volumeRange = document.querySelector('.range');
 
 const baseURL = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1"
     ? ""
-    : "/music-player"; // Replace 'music-player' with your actual repository name
+    : "/abc"; // Replace 'music-player' with your actual repository name
 
 const songAttributions = {
     // ... (keep existing attributions)
