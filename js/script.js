@@ -46,23 +46,25 @@ function secondsToMinutesSeconds(seconds) {
 
 async function getSongs(folder) {
     try {
-        // Encode the folder name to handle spaces and special characters
-        const encodedFolder = encodeURIComponent(folder);
+        // Clean up the folder path and ensure it starts with 'songs/'
+        const folderPath = folder.startsWith('songs/') ? folder : `songs/${folder}`;
         
-        // Try direct folder access first (works locally)
-        const response = await fetch(`${baseURL}/${encodedFolder}`);
+        // For GitHub Pages, always try to get songs.json first
+        const songsJsonUrl = `${baseURL}/${folderPath}/songs.json`;
+        const songsResponse = await fetch(songsJsonUrl);
         
+        if (songsResponse.ok) {
+            const data = await songsResponse.json();
+            updateSongsList(data.songs);
+            return data.songs;
+        }
+
+        // If songs.json fails, try direct folder access (for local development)
+        const response = await fetch(`${baseURL}/${folderPath}`);
         if (!response.ok) {
-            // For GitHub Pages, try songs.json
-            const songsResponse = await fetch(`${baseURL}/${encodedFolder}/songs.json`);
-            if (songsResponse.ok) {
-                const data = await songsResponse.json();
-                return data.songs;
-            }
             throw new Error(`HTTP error! status: ${response.status}`);
         }
 
-        // Local environment parsing (your existing code)
         const text = await response.text();
         const div = document.createElement('div');
         div.innerHTML = text;
@@ -72,34 +74,38 @@ async function getSongs(folder) {
             .filter(link => link.href.endsWith('.mp3'))
             .map(link => decodeURIComponent(link.href.split('/').pop()));
 
-        const songUL = document.querySelector(".songList").getElementsByTagName("ul")[0];
-        songUL.innerHTML = "";
-
-        for (const song of mp3Files) {
-            songUL.innerHTML += `
-                <li>
-                    <i class="ri-music-2-fill svg"></i>
-                    <div class="info">
-                        <div>${decodeURIComponent(song.replace('.mp3', ''))}</div>
-                    </div>
-                    <div class="playnow">
-                        <span>Play Now</span>
-                        <i class="ri-play-large-fill"></i>
-                    </div>
-                </li>`;
-        }
-
-        Array.from(songUL.getElementsByTagName("li")).forEach((li, index) => {
-            li.addEventListener("click", () => {
-                playMusic(mp3Files[index]);
-            });
-        });
-
+        updateSongsList(mp3Files);
         return mp3Files;
     } catch (error) {
         console.error("Error in getSongs:", error);
         return [];
     }
+}
+
+// Separate function to update the songs list UI
+function updateSongsList(songs) {
+    const songUL = document.querySelector(".songList").getElementsByTagName("ul")[0];
+    songUL.innerHTML = "";
+
+    songs.forEach(song => {
+        songUL.innerHTML += `
+            <li>
+                <i class="ri-music-2-fill svg"></i>
+                <div class="info">
+                    <div>${decodeURIComponent(song.replace('.mp3', ''))}</div>
+                </div>
+                <div class="playnow">
+                    <span>Play Now</span>
+                    <i class="ri-play-large-fill"></i>
+                </div>
+            </li>`;
+    });
+
+    Array.from(songUL.getElementsByTagName("li")).forEach((li, index) => {
+        li.addEventListener("click", () => {
+            playMusic(songs[index]);
+        });
+    });
 }
 
 function updateTicker(track) {
