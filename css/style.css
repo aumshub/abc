@@ -549,25 +549,32 @@ font-size: 13px;
 @media (max-width: 1200px) {
   .left {
     position: fixed;
-    left: -320px; /* Start off-screen */
-    width: 320px; /* Fixed width for mobile */
+    top: 0;
+    left: 0;
+    width: 320px;
     height: 100vh;
-    transition: transform 0.3s ease; /* Use transform for smoother transitions */
     background-color: black;
-    z-index: 9999;
+    z-index: 10000; /* Ensuring it's above everything */
     overflow-y: auto;
+    transform: translateX(-100%);  /* Initially hidden */
+    transition: transform 0.3s ease-in-out; /* Smooth slide animation */
+    will-change: transform; /* Optimize for better performance */
+    box-shadow: 4px 0 15px rgba(0, 0, 0, 0.5);
   }
 
   .left.active {
-    transform: translateX(320px); /* Slide in from the left */
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+    transform: translateX(0); /* Slide in */
   }
 
+  
   .hamburger {
     display: block;
-    position: relative;
-    z-index: 9998;
-    font-size: 30px; /* Adjust size for mobile */
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    font-size: 30px;
+    cursor: pointer;
+    z-index: 10001; /* Ensuring it's always on top */
   }
 
   .close {
@@ -575,10 +582,11 @@ font-size: 13px;
     position: absolute;
     right: 15px;
     top: 15px;
-    font-size: 30px; /* Adjust size for mobile */
+    font-size: 30px;
     cursor: pointer;
-    z-index: 10000;
+    z-index: 10002; /* Ensuring it's clickable */
   }
+
 
   .songList {
     max-height: 60vh; /* Adjust height for mobile */
