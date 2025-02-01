@@ -583,8 +583,8 @@ font-size: 13px;
   .close {
     display: block;
     position: absolute;
-    right: 15px;
-    top: 15px;
+    right: 19px;
+    top: 22px;
     font-size: 30px;
     cursor: pointer;
     z-index: 10002; /* Ensuring it's clickable */
@@ -804,7 +804,7 @@ font-size: 13px;
 
   /* Adjust content below fixed header */
   .right {
-    padding-top: 100px;
+    padding-top: 20px;
   }
 
   .spotifyPlaylist {
@@ -818,15 +818,8 @@ font-size: 13px;
         padding: 15px;
     }
 
-    .hamburger {
-        font-size: 22px;
-    }
 
-    .close {
-        right: 15px;
-        top: 15px;
-        font-size: 22px;
-    }
+  
 
     .container {
         padding: 0;
@@ -837,7 +830,7 @@ font-size: 13px;
     .right {
         width: 100vw;
         margin: 0;
-        padding: 5px;
+        /* padding: 5px; */
         height: 100vh;
         display: flex;
         flex-direction: column;
