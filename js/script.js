@@ -208,6 +208,9 @@ async function displayAlbums() {
         }
 
         // Add click events to cards
+        const hamburger = document.querySelector(".hamburger");
+        const leftSidebar = document.querySelector(".left");
+
         Array.from(document.getElementsByClassName("card")).forEach(e => {
             e.addEventListener("click", async item => {
                 const folderPath = item.currentTarget.dataset.folder;
@@ -215,6 +218,11 @@ async function displayAlbums() {
                 if (songs.length > 0) {
                     currFolder = folderPath;
                     playMusic(songs[0]);
+
+                    // Activate the hamburger menu
+                    if (leftSidebar) {
+                        leftSidebar.classList.add("active");
+                    }
                 }
             });
         });
