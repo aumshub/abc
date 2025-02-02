@@ -373,11 +373,31 @@ async function main() {
         volumeRange.value = currentSong.volume * 50;
         // console.log("Audio unmuted");
     });
+
+    // Add haptic feedback to all interactive elements
+    document.querySelectorAll('.card, .songbuttons i, .volumecont i, .seekbar').forEach(element => {
+        element.addEventListener('touchstart', () => {
+            triggerHapticFeedback();
+        });
+    });
+
+    // Add haptic feedback for volume changes
+    document.querySelector('.range').addEventListener('input', () => {
+        triggerHapticFeedback();
+    });
 }
 
 function triggerHapticFeedback() {
+    // Try the Vibration API first
     if (navigator.vibrate) {
-        navigator.vibrate(50); // Vibrate for 50 milliseconds
+        navigator.vibrate(50); // 50ms vibration
+        return;
+    }
+
+    // Fallback for iOS devices
+    if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.hapticFeedback) {
+        window.webkit.messageHandlers.hapticFeedback.postMessage("selection");
+        return;
     }
 }
 
@@ -409,4 +429,4 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
-main()
+main();
