@@ -11,7 +11,7 @@
 </head>
 
 <body>
-    <div class="wrapper">
+    <div class="hero">
         <div class="container flex bg-black">              
             <div class="left">
                     <i class="ri-close-large-fill close"></i>
@@ -37,14 +37,19 @@
                             <a href="about.html" class="footer-link">About</a>
                             <span class="footer-separator">•</span>
                             <a href="https://aumspace.netlify.app/#contact" class="footer-link" target="_blank">Contact</a>
+                            <span class="footer-separator">•</span>
+                            <a onclick="window.location.href='mailto:aumpatel2930@gmail.com';" class="footer-link" target="_blank">Feedback</a>
                         </div>
                         <p class="footer-text">Made with ❤️ by Aum Patel, inspired by innovative design principles.</p>
                         <p class="version-text">v1.0.0 (Build 20250125)</p>
+
+
+
                     </div>
                 </div>
             </div>
             <div class="right rounded bg-grey">
-                <div class="header rounded">
+                <div class="header">
                     <i class="ri-menu-2-fill hamburger"></i>
                     <div class="ticker-wrapper" id="ticker-wrapper">
                         <div class="ticker-text" id="ticker-text"></div>
@@ -98,6 +103,8 @@
               <feBlend in="SourceGraphic" in2="turbulence" mode="overlay" />
             </filter>
           </svg>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/jsmediatags@3.9.0/dist/jsmediatags.min.js"></script>
         <script src="js/script.js"></script>
 </body>
